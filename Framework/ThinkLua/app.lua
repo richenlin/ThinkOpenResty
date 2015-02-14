@@ -35,7 +35,7 @@ function init()
 
     r_G.APP_PATH = THINK_APP_PATH .. 'App/';
 
-    package.path = THINK_PATH .. '/?.lua;'..APP_PATH..'/?.lua;'.. package.path;
+    package.path = THINK_PATH .. '?.lua;'..APP_PATH..'?.lua;'.. package.path;
 
     ngx.header.content_type = "text/plain";
 

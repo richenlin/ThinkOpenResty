@@ -43,7 +43,9 @@ end
 
 local function _load_module(name)
     local loadmodule = _get_cache(name)
-    if loadmodule == nil then 
+    -- ngx.say("loader 46:"..name)
+    -- ngx.say("loader 47:"..type(loadmodule))
+    if loadmodule == nil or think_util.empty( loadmodule ) then 
         loadmodule = require(name)
         _set_cache(name,loadmodule)
     end
@@ -72,16 +74,10 @@ function extend( classname )
 end
 
 --
-function new( classname, package, ... )
-    local parentClass = _load_module( package,classname )
-    if not parentClass then
-        return 
-    end
-
-    if type( parentClass:new()) == 'function' then 
-        return parentClass:new( ... )
-    end
-    return
+function new( classname, ... )
+    -- ngx.say('loader 76 : '..classname)
+    local parentClass = _load_module( classname )
+    return parentClass:new( ... )
 end
 
 function thinklua(filename)

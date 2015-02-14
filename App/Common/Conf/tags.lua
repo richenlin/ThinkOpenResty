@@ -1,3 +1,4 @@
-map = {['test']='app.behavior.TestBehavior'}
+map = {['test']='Api.Behavior.TestBehavior'}
+
 
 	
