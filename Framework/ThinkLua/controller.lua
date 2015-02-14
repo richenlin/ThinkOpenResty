@@ -8,9 +8,9 @@
 -- | Author: Richen <ric3000(at)163.com>
 -- +----------------------------------------------------------------------
 
-module('moon.controller',package.seeall)
+module('ThinkLua.controller',package.seeall)
 
-local moon_debug=require("moon.debug")
+local moon_debug=require("ThinkLua.debug")
 
 function default_handler(request,response,...)
     ngx.exit(403)

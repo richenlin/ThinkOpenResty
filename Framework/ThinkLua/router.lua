@@ -30,6 +30,7 @@ function _map(route_table, route_order, uri, func_name)
     local mod_name, fn = string_match(func_name, '^(.+)%.([^.]+)$');
     -- local mod = Class.new(mod_name)
     local mod = app.controller(mod_name,'Api');
+    -- local mod = require("Api.Controller.home")
     --前置，后置操作
     local beforefn = '_before_'..fn
     local afterfn  = '_after_'..fn

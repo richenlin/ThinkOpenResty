@@ -17,6 +17,8 @@ think_vars = nil;
 think_debug = nil;
 think_util = nil;
 think_common = nil;
+--定义类
+Class = nil;
 
 function init()
 	-- get/set the inited flag for app_name
@@ -50,8 +52,8 @@ function _M.run()
     -- 初始化
     init();
 
-    think_vars = require("ThinkLua.vars");
-    think_util = require("ThinkLua.util");
+    think_vars = require("ThinkLua.vars")
+    think_util = require("ThinkLua.util")
      --TODO系统通用方法
     think_common = require("ThinkLua.common")
 

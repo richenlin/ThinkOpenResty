@@ -26,10 +26,12 @@ local _G = _G;
 
 local cache_module = {};
 
+
 local function _get_cache(module)
     local appname = APP_NAME;
     return cache_module[appname] and cache_module[appname][module];
 end
+
 
 local function _set_cache(name, val)
     local appname = APP_NAME;
@@ -39,21 +41,47 @@ local function _set_cache(name, val)
     cache_module[appname][name] = val;
 end
 
-local function _load_module(dir, name)
-
-    local pathname = APP_PATH .. dir .. '/';
-   
-    package.path = pathname .. '?.lua;'.. package.path;
-
-    local filename = _get_cache(name);
-    if filename == nil then
-        filename = pathname .. name .. ".lua";
-        _set_cache(name, filename);
+local function _load_module(name)
+    local loadmodule = _get_cache(name)
+    if loadmodule == nil then 
+        loadmodule = require(name)
+        _set_cache(name,loadmodule)
     end
-    
-    if fexists(filename) then
-        return require (name);
+
+    return loadmodule
+
+    -- local pathname = APP_PATH .. dir .. '/';
+    -- package.path = pathname .. '?.lua;'.. package.path;
+    -- local filename = _get_cache(name);
+
+    -- if filename == nil then
+    --     filename = pathname .. name .. ".lua";
+    --     _set_cache(name, filename);
+    -- end
+    -- if fexists(filename) then
+    --     requirename = string.gsub(dir..'/'..name,"/",".")
+    --     ngx.say(requirename)
+    --     return require (requirename);
+    -- end
+end
+
+--继承
+function extend( classname )
+    local parentClass = _load_module( classname )
+    return parentClass:new()
+end
+
+--
+function new( classname, package, ... )
+    local parentClass = _load_module( package,classname )
+    if not parentClass then
+        return 
     end
+
+    if type( parentClass:new()) == 'function' then 
+        return parentClass:new( ... )
+    end
+    return
 end
 
 function thinklua(filename)
@@ -61,7 +89,11 @@ function thinklua(filename)
 end
 
 function controller(filename,groupname)
-    return _load_module("Api/Controller", filename);
+    if not groupname then 
+        groupname = 'Common'
+    end
+    -- return _load_module(filename);
+    return _load_module(groupname..".Controller."..filename)
 end
 
 function model(mod, ...)
