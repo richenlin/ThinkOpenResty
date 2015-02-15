@@ -87,10 +87,10 @@ function _M.run()
     local route_map   = think_vars.get(APP_NAME, "ROUTE_INFO")['ROUTE_MAP'];
     local route_order = think_vars.get(APP_NAME, "ROUTE_INFO")['ROUTE_ORDER'];
     local page_found  = false;
-    requ = request:new()
-    resp = response:new()
-    ngx_ctx.request  = requ;
-    ngx_ctx.response = resp;
+    thinkRequest = request:new()
+    thinkResponse = response:new()
+    ngx_ctx.request  = thinkRequest;
+    ngx_ctx.response = thinkResponse;
     -- 路由映射
     for _, k in ipairs(route_order) do
 
@@ -106,19 +106,19 @@ function _M.run()
 
             if type(v) == "function" then  
                 if type(beforefunc) == "function" then 
-                    pcall(beforefunc, requ, resp, unpack(args));
+                    pcall(beforefunc, thinkRequest, thinkResponse, unpack(args));
                 end              
                 if think_debug then think_debug.debug_clear() end;
-                local ok, ret = pcall(v, requ, resp, unpack(args));
-                if not ok then resp:error(ret) end;
+                local ok, ret = pcall(v, thinkRequest, thinkResponse, unpack(args));
+                if not ok then thinkResponse:error(ret) end;
                 if type(afterfunc) == "function" then 
-                    pcall(afterfunc, requ, resp, unpack(args));
+                    pcall(afterfunc, thinkRequest, thinkResponse, unpack(args));
                 end
-                resp:finish();
-                resp:do_defers();
-                resp:do_last_func();
+                thinkResponse:finish();
+                thinkResponse:do_defers();
+                thinkResponse:do_last_func();
             elseif type(v) == "table" then
-                v:_handler(requ, resp, unpack(args));
+                v:_handler(thinkRequest, thinkResponse, unpack(args));
             else
                 ngx.exit(500);
             end
