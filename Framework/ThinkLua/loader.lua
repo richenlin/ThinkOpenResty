@@ -1,5 +1,5 @@
 -- +----------------------------------------------------------------------
--- | MoonLight
+-- | ThinkLua
 -- +----------------------------------------------------------------------
 -- | Copyright (c) 2015
 -- +----------------------------------------------------------------------
@@ -74,10 +74,10 @@ function extend( classname )
 end
 
 --
-function new( classname, ... )
+function new( classname, param,... )
     -- ngx.say('loader 76 : '..classname)
     local parentClass = _load_module( classname )
-    return parentClass:new( ... )
+    return parentClass:new(param,... )
 end
 
 function thinklua(filename)
@@ -98,7 +98,7 @@ function model(mod, ...)
 end
 
 function service( servicename ,... )
-    local service = _load_module('app/service',servicename..'Service')
+    local service = _load_module(servicename..'Service')
     return service;
 end
 

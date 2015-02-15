@@ -29,7 +29,8 @@ mysql={
 	mysql_port = "3306",
 	mysql_db = "newactivity",
 	mysql_user = "root",
-	mysql_passwd = "richenlin"
+	mysql_passwd = "richenlin",
+	mysql_prefix = "enlink_"
 }
 	
 

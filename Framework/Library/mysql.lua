@@ -11,7 +11,7 @@
 local _M = { _VERSION = '0.01' }
 
 local mysql = require ("resty.mysql")
-local moon_util = require("moon.util")
+local think_util = require("ThinkLua.util")
 
 
 function _M.query(str)
@@ -30,7 +30,7 @@ function _M.query(str)
     --              database = "ngx_test",
     --              user = "ngx_test",
     --              password = "ngx_test" }
-    local server = moon_util.get_config('mysql');
+    local server = think_util.get_config('mysql');
     local ok, err, errno, sqlstate = db:connect{
     	host = server.mysql_host,
         port = server.mysql_port,

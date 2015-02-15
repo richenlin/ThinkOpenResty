@@ -11,8 +11,8 @@
 local _M = { _VERSION = '0.01' }
 
 local Redis = require("resty.redis")
-local moon_util = require("moon.util")
-local server = moon_util.get_config('redis');
+local think_util = require("ThinkLua.util")
+local server = think_util.get_config('redis');
 
 local red = Redis:new()
 
