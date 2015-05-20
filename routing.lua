@@ -28,7 +28,7 @@ router.setup();
 -- map('^/ActivityJoin','activityJoin.index');
 -- map('^/Test','testcontroller.index');
 
-map('^/','home.index');
+map('^/','Api.Home.index');
 
 
 

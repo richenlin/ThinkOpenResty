@@ -83,6 +83,7 @@ function _M.run()
     setfenv(assert(loadfile(THINK_APP_PATH .. "routing.lua")), env)();
     
     local uri         = ngx.var.REQUEST_URI;
+    ngx.say(uri)
     local ngx_ctx     = ngx.ctx
     local route_map   = think_vars.get(APP_NAME, "ROUTE_INFO")['ROUTE_MAP'];
     local route_order = think_vars.get(APP_NAME, "ROUTE_INFO")['ROUTE_ORDER'];

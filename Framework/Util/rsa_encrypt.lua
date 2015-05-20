@@ -40,7 +40,8 @@ local resty_rsa = require "resty.rsa"
 local resty_base64 = require "resty.base64"
 
 
-function _M.encrypt(pub_key,str)
+function _M:encrypt(pub_key,str)
+
 	local pub, err = resty_rsa:new(pub_key, true)
 	if not pub then
 		ngx.say("new rsa err: ", err)
@@ -54,7 +55,7 @@ function _M.encrypt(pub_key,str)
 	return resty_base64.base64_encode(encrypted)
 end
 
-function _M.decrypt(priv_key,str)
+function _M:decrypt(priv_key,str)
 	local priv, err = resty_rsa:new(priv_key)
 	if not priv then
 		ngx.say("new rsa err: ", err)

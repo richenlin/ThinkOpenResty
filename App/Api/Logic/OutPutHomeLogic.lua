@@ -9,10 +9,9 @@ function _M:new()
 end
 
 function _M:outPut( mo,map )
-
-	local model = think_common.D("Api.Model.ActivityModel",'activity')
+	local model = think_common.D("Activity",'activity')
 	local res = model:fields('*'):select()
-	-- ngx.say(model:getLastSql())
+	ngx.say(model:getLastSql())
 	return mo
 end
 

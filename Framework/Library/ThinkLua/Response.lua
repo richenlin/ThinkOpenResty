@@ -8,7 +8,7 @@
 -- | Author: Richen <ric3000(at)163.com>
 -- +----------------------------------------------------------------------
 
-module('ThinkLua.response',package.seeall);
+module('ThinkLua.Response',package.seeall);
 
 local moon_util    = require('ThinkLua.util');
 local moon_debug   = require("ThinkLua.debug");
@@ -157,10 +157,10 @@ function Response:finish()
         return;
     end
 
-    local debug_conf=moon_util.get_config("debug");
-    if debug_conf and type(debug_conf)=="table" and debug_conf.on then
-        self:debug();
-    end
+    -- local debug_conf=THINKU.get_config("debug");
+    -- if debug_conf and type(debug_conf)=="table" and debug_conf.on then
+    --     self:debug();
+    -- end
 
     self._eof = true;
     ngx.print(self._output);

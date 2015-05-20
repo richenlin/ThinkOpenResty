@@ -1,15 +1,16 @@
 -- +----------------------------------------------------------------------
--- | MoonLight
+-- | ThinkLua
 -- +----------------------------------------------------------------------
 -- | Copyright (c) 2015
 -- +----------------------------------------------------------------------
 -- | Licensed CC BY-NC-ND
 -- +----------------------------------------------------------------------
--- | Author: Richen <ric3000(at)163.com>
+-- | Author: Richen  <ric3000(at)163.com>
+-- | Modify by lihao 此文件将放一些在其他语言中经常以被实现，而lua中未实现的方法
 -- +----------------------------------------------------------------------
 
 local json          = require("cjson");
-local fileutil      = require ("library.file");
+local fileutil      = require ("Util.File");
 
 local math_floor    = math.floor;
 local string_char   = string.char;
@@ -23,9 +24,9 @@ local ipairs = ipairs
 local re_match = ngx.re.match
 local maxn = table.maxn
 
-local think_util = require("ThinkLua.vars");
+local think_util = require("ThinkLua.Vars");
 
-module('ThinkLua.util', package.seeall);
+module('ThinkLua.Util', package.seeall);
 
 function empty(...)
     local tbl = { ... }
@@ -77,7 +78,7 @@ function get_config(key, default)
     if not issub then -- main app
         local ret = ngx.var[key];
         if ret then return ret end
-        local app_conf=think_util.get(APP_NAME,"APP_CONFIG");
+        local app_conf=THINKU.get(APP_NAME,"APP_CONFIG");
 
         local v = app_conf[key];
         if v==nil then v = default end;
@@ -86,7 +87,7 @@ function get_config(key, default)
 
     -- sub app
     if not subname then return default end;
-    local subapps=think_util.get(APP_NAME,"APP_CONFIG").subapps or {};
+    local subapps=THINKU.get(APP_NAME,"APP_CONFIG").subapps or {};
     local subconfig=subapps[subname].config or {};
 
     local v = subconfig[key];
@@ -198,6 +199,39 @@ function table_merge( table1,table2 )
         table1[k] = v
     end
     return table1
+end
+
+--字符串分隔
+function split(szFullString, szSeparator)
+    local nFindStartIndex = 1
+    local nSplitIndex = 1
+    local nSplitArray = {}
+    while true do
+       local nFindLastIndex = string.find(szFullString, szSeparator, nFindStartIndex)
+       if not nFindLastIndex then
+        nSplitArray[nSplitIndex] = string.sub(szFullString, nFindStartIndex, string.len(szFullString))
+        break
+       end
+       nSplitArray[nSplitIndex] = string.sub(szFullString, nFindStartIndex, nFindLastIndex - 1)
+       nFindStartIndex = nFindLastIndex + string.len(szSeparator)
+       nSplitIndex = nSplitIndex + 1
+    end
+    return nSplitArray
+end
+
+--首字母大写
+function ucfirst(string,separator) 
+    if separator then --如果存在分隔符，则将分隔符后的第一个字母大写
+       local splittable = split( string,separator )
+       if not empty( splittable ) then 
+            for k, v in pairs(splittable) do 
+                firstLetteryUpper = string.upper(string.sub( v,1, 2 ))
+                newstring = newstring .. firstLetteryUpper..string.sub(v,2,-1)
+            end
+            return newstring
+       end
+    end
+    return string.upper(string.sub( string,1, 2 ))..string.sub(string,2,-1)
 end
 
 

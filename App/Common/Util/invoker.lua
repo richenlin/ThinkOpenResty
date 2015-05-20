@@ -1,4 +1,4 @@
-module("Common.Util.invoker", package.seeall);
+module("Common.Util.Invoker", package.seeall);
 
 local _M = {}
 
@@ -11,7 +11,7 @@ function _M:new()
 end
 
 function _M:getInvoker( commond )
-	instance = app.new( commond )
+	instance = THINKAPP.new( commond )
 	return instance
 end
 

@@ -1,4 +1,4 @@
-module("ThinkLua.hook",package.seeall)
+module("ThinkLua.Hook",package.seeall)
 
 local _M = {}
 
@@ -10,6 +10,7 @@ function _M:new( ... )
 end
 
 function _M:listen( tagsname,param )
+	--加载tags配置文件
 	local tagstable = think_vars.get(APP_NAME, "APP_TAGS")
 	tagsclass = tagstable[tagsname]
 	--不存在的tag，直接返回

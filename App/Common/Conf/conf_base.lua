@@ -11,7 +11,6 @@
 --
 -- var in this file can be got by "moon.util.get_config(key)"
 --
-
 debug={
     on=true,
     to="response", -- "ngx.log"
@@ -25,17 +24,16 @@ config={
 }
 
 mysql={
-	mysql_host = "127.0.0.1",
+	mysql_host = "10.0.2.42",
 	mysql_port = "3306",
-	mysql_db = "newactivity",
+	mysql_db = "enlinkcms3",
 	mysql_user = "root",
-	mysql_passwd = "richenlin",
-	mysql_prefix = "enlink_"
+	mysql_passwd = "richenlin"
 }
 	
 
 redis={
-	redis_host = "127.0.0.1",
+	redis_host = "10.0.2.41",
 	redis_port = "6379",
 }
 	
@@ -44,4 +42,3 @@ mongodb={
 	mongodb_host = "10.0.2.42",
 	mongodb_port = "27017",
 }
-	

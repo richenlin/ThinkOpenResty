@@ -1,0 +1,10 @@
+
+.idea/.name
+
+*.xml
+
+*.iml
+
+App/Common/Conf/conf.lua
+
+*.pem

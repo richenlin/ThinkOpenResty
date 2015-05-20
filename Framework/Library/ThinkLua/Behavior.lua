@@ -1,4 +1,4 @@
-module("ThinkLua.behavior",package.seeall)
+module("ThinkLua.Behavior",package.seeall)
 
 local _M = {}
 

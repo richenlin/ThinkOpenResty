@@ -8,7 +8,7 @@
 -- | Author: Richen <ric3000(at)163.com>
 -- +----------------------------------------------------------------------
 
-module('ThinkLua.request',package.seeall);
+module('ThinkLua.Request',package.seeall);
 
 local string_len = string.len;
 
@@ -129,10 +129,10 @@ function Request:set_uri_args(args)
 end
 
 -- to prevent use of casual module global variables
-getmetatable(ThinkLua.request).__newindex = function (table, key, val)
-    error('attempt to write to undeclared variable "' .. key .. '": '
-            .. debug.traceback());
-end
+-- getmetatable(ThinkLua.Request).__newindex = function (table, key, val)
+--     error('attempt to write to undeclared variable "' .. key .. '": '
+--             .. debug.traceback());
+-- end
 
 
 return Request

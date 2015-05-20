@@ -27,9 +27,17 @@ function route_sorter(luri, ruri)
 end
 
 function _map(route_table, route_order, uri, func_name)
-    local mod_name, fn = string_match(func_name, '^(.+)%.([^.]+)$');
+    local module_name,mod_name, fn = string_match(func_name, '^(.+)%.(.+)%.([^.]+)$');
+    --modify by lihao 添加模块名，用于分组
+    local r_G = _G;
+    local mt = getmetatable(_G);
+    if mt then
+        r_G = rawget(mt, "__index");
+    end
+    r_G.MODULE_NAME = module_name
+    --modify end
     -- local mod = Class.new(mod_name)
-    local mod = app.controller(mod_name,'Api');
+    local mod = app.controller(mod_name..'Controller');
     -- local mod = require("Api.Controller.home")
     --前置，后置操作
     local beforefn = '_before_'..fn

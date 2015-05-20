@@ -1,6 +1,5 @@
-module("ThinkLua.model",package.seeall)
+module("ThinkLua.Model",package.seeall)
 
-local server = think_util.get_config('mysql');
 local Model = {}
 Model['db'] = nil -- 数据连接
 Model['tablename'] = '' -- 表名
@@ -44,7 +43,7 @@ function Model:find()
 	else 
 		self.lastsql = self.lastsql..'*'
 	end 
-	self.lastsql = self.lastsql.." FROM "..server.mysql_prefix..self.tablename
+	self.lastsql = self.lastsql.." FROM "..THINKF.C('mysql_prefix')..self.tablename
 	if self.option then
 		self.lastsql = self.lastsql..' WHERE '..self.options
 	end 
@@ -66,7 +65,7 @@ function Model:select(fields)
 	else 
 		self.lastsql = self.lastsql..'*'
 	end 
-	self.lastsql = self.lastsql.." FROM "..server.mysql_prefix..self.tablename
+	self.lastsql = self.lastsql.." FROM "..THINKF.C('mysql_prefix')..self.tablename
 	if self.option then
 		self.lastsql = self.lastsql..' WHERE '..self.options
 	end 

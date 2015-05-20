@@ -8,7 +8,7 @@
 -- | Author: Richen <ric3000(at)163.com>
 -- +----------------------------------------------------------------------
 
-module('ThinkLua.controller',package.seeall)
+module('ThinkLua.Controller',package.seeall)
 
 local moon_debug=require("ThinkLua.debug")
 

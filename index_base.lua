@@ -8,6 +8,6 @@
 -- | Author: 
 -- +----------------------------------------------------------------------
 
-local app = require(ngx.var.THINKLUA_APP_PATH .. "Framework.ThinkLua.app");
+local app = require(ngx.var.THINKLUA_APP_PATH .. "Framework.ThinkLua.App");
 -- 运行
 app:run();
