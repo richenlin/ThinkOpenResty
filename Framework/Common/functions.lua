@@ -21,6 +21,22 @@ function r_G.tags( tagsname,param )
 	local hook = new("ThinkLua.hook")
 	return hook:listen( tagsname,param )
 end
+
+--获取Request
+function r_G.I( arg_name,method )
+	if method == nil then 
+		return _Request:_REQUEST(arg_name)
+	end
+	if string.lower(method) == 'get' then 
+		return _Request:_GET(arg_name)
+	end
+	if string.lower(method) == 'post' then 
+		return _Request:_POST(arg_name)
+	end
+	return nil
+
+end
+
 --模型生成
 function r_G.D( modelname,tablename)
 	--判断对应文件是否存在，若不存在则调用ThinkLua下的Model
