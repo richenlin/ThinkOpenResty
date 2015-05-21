@@ -10,8 +10,7 @@ function Dispatcher:new( ... )
 end
 
 function Dispatcher:dispatch()
-	local path = ngx.var.uri
-	-- ngx.say(path)
+	local path = _Request.path
 	local r_G = _G;
 	local mt = getmetatable(_G);
 	if mt then

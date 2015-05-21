@@ -1,17 +1,12 @@
 module("Common.Util.Invoker", package.seeall);
 
-local _M = {}
+local _M = Class()
 
 local instance = nil
-function _M:new()
-	local o={}
-    setmetatable(o,self)
-    self.__index=self
-    return o
-end
+
 
 function _M:getInvoker( commond )
-	instance = THINKAPP.new( commond )
+	instance = new( commond )
 	return instance
 end
 

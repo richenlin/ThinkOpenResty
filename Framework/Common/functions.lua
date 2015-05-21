@@ -18,7 +18,7 @@ function r_G.json_decode( decodestr )
 end
 --行为扩展
 function r_G.tags( tagsname,param )
-	local hook = app.new("ThinkLua.hook")
+	local hook = new("ThinkLua.hook")
 	return hook:listen( tagsname,param )
 end
 --模型生成
