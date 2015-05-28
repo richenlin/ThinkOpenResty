@@ -27,9 +27,9 @@ APP_PATH = SITE_PATH .. 'App/'
 RUNTIME_PATH = SITE_PATH ..'Runtime/'
 -- 开启调试模式
 APP_DEBUG = true
-
 -- 加载框架
-require( THINK_PATH ..'ThinkLua')
+local ThinkLua = require( THINK_PATH ..'ThinkLua')
+ThinkLua:run()
 
 
 
