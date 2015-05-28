@@ -1,24 +1,53 @@
 module("ThinkLua.Model",package.seeall)
 
-local Model = {}
-Model['db'] = nil -- 数据连接
-Model['tablename'] = '' -- 表名
-Model['fields'] = ' ' -- 字段
-Model['options'] = ' ' -- 查询表达式
-Model['lastsql'] = ' ' -- 上一sql语句
+local Model = Class()
+-- 当前数据库操作对象
+Model.db = nil 
+-- 表前缀
+Model.tablePrefix = ''
+-- 模型名称
+Model.name = ''
+-- 数据库名称
+Model.dbName = ''
+-- 表名不含前缀
+Model.tablename = '' 
+-- 表名含前缀
+Model.trueTableName =''
 
-function Model:new( tablename )
-	self.tablename = tablename
-	--初始化数据连接
-	connection()
-	local o={}
-    setmetatable(o,self)
-    self.__index=self
-    return o
+
+
+Model.fields = ' ' -- 字段
+Model.options = ' ' -- 查询表达式
+Model.lastsql = ' ' -- 上一sql语句
+
+function Model:__construction( tablename )
+	self:_initialize()
+	if tablenname == nil then 
+		--TODO表示一个空的model
+	else 
+		self.tablename = tablename
+		self.tablePrefix = C("DB_PREFIX")
+		self.dbName = C('DB_NAME')
+		self.tablename = self.tablePrefix..tablename
+	end
+	local config = C('')
+	connection(config)
 end
 
-function connection()
-	Model.db = require("Library.mysql")
+--模型初始化，有具体model实现
+function Model:_initialize(...)
+	
+end
+
+--建立数据库连接
+function connection(config)
+	local DB = _load_module("ThinkLua.DB")
+	Model.db = DB:getInstance(config)
+end
+
+function Model:query( sql,...)
+	local db = self.db
+	return db:query(sql,...)
 end
 
 function execute( sql )

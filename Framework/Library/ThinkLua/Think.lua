@@ -1,6 +1,5 @@
 --核心运行类
 module("Think", package.seeall);
-
 local Think = {}
 
 --程序初始化
@@ -22,12 +21,8 @@ function Think:start()
 	
 	_load_module("ThinkLua.Behavior")
 	_load_module("ThinkLua.Hook")
-
 	local App = require("ThinkLua.App")
 	App:run()
 	
 end
-
-
-
 return Think

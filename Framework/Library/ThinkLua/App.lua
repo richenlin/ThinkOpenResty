@@ -9,11 +9,9 @@
 -- +----------------------------------------------------------------------
 
 module("ThinkLua.App", package.seeall);
-
 local App = {}
 
 function App:run()
-
     --加载项目初始化
     -- local Hook = require("ThinkLua.Hook")
     -- Hook:listen("app_init")
@@ -41,6 +39,8 @@ function exce( ... )
 		ngx.exit(400)
 	end
 
+
+
 	if type(controller[actionname]) == "function" then 
 	 	if type(controller[beforeactionname]) == "function" then 
             pcall(controller[beforeactionname],controller)
@@ -55,12 +55,7 @@ function exce( ... )
 	end
 	
 
-	-- THINKRES:finish();
- --    THINKRES:do_defers();
- --    THINKRES:do_last_func();
-	-- controller:beforeactionname()
-	-- controller:actionname()
-	-- controller:afteractionname()
+
 end
 
 return App

@@ -2,11 +2,11 @@ module("ThinkLua.Class",package.seeall)
 
 local _M = {}
 
-function _M:new()
+function _M:new(...)
 	local o = o or {}
 	setmetatable(o,self)
 	self.__index = self
-	self:__construction()
+	self:__construction(...)
 	return o
 end
 

@@ -41,6 +41,7 @@ function r_G._load_module(name)
         loadmodule = require(name)
         _set_cache(name,loadmodule)
     end
+
     return loadmodule
 end
 
@@ -81,9 +82,21 @@ function r_G.Controller(filename)
     return c:new()
 end
 
-function model(mod, ...)
-    local m = _load_module("app/model", mod)
-    return m and type(m.new) == "function" and m:new(...) or m;
+function r_G.Model(mod, path)
+    local modelname = ''
+    if path == nil or path == '' then 
+        --表示当前模块下的model
+        modelname = APP_NAME..'.Model.'..mod..'Model'
+        if not fexists(modelname) then 
+            --若当前模块下无此model，则去查看common下
+            modelname = "Common.Model."..mod..'Model'
+            if not fexists(modelname) then 
+                modelname = "ThinkLua.Model"
+            end
+        end
+    end
+    local m = _load_module(modelname)
+    return m:new(mod);
 end
 
 function service( servicename ,... )

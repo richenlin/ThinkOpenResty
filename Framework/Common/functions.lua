@@ -2,6 +2,7 @@
 module("Common.functions",package.seeall)
 
 local Json = require("cjson")
+local Md5 = require("resty.md5")
 local r_G = _G;
 local mt = getmetatable(_G);
 if mt then
@@ -15,6 +16,13 @@ end
 --json解密
 function r_G.json_decode( decodestr )
 	return Json.decode( decodestr )
+end
+--md5加密
+function r_G.md5( object )
+	if type(object) == 'table' then 
+		object = json_encode( object )
+	end
+	return Md5.sumhexa(object)
 end
 --行为扩展
 function r_G.tags( tagsname,param )
@@ -38,20 +46,15 @@ function r_G.I( arg_name,method )
 end
 
 --模型生成
-function r_G.D( modelname,tablename)
-	--判断对应文件是否存在，若不存在则调用ThinkLua下的Model
-	local modelPath = APP_PATH..string.gsub(modelname,'%.','/')..'.lua'
-	local filehelper = require ("Util.File")
-	local fexists = filehelper.exists
-	if not fexists(modelPath) then
-		modelname = 'ThinkLua.model'
-	end
-	local model = THINKAPP.new(modelname,tablename)
-	return model
+function r_G.D(modelname)
+	return Model(modelname)
 end
 
 --配置文件获取
 function r_G.C(name,value)
+	if type(name) == nil or name == '' then 
+		return _config
+	end
 	-- 类型为字符串
 	if type(name) == "string" then 
 		local confres = nil
@@ -70,7 +73,6 @@ function r_G.C(name,value)
 		_config = name
 	end
 	
-end
 
---
+end
 
