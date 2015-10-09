@@ -15,6 +15,7 @@ function App:run()
     --加载项目初始化
     -- local Hook = require("ThinkLua.Hook")
     -- Hook:listen("app_init")
+    tags('test')
     init()
     exce()
     -- Hook:listen("app_end")

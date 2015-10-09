@@ -14,23 +14,24 @@ Model.tablename = ''
 -- 表名含前缀
 Model.trueTableName =''
 
-
-
-Model.fields = ' ' -- 字段
+Model.field = '*' -- 字段
 Model.options = ' ' -- 查询表达式
-Model.lastsql = ' ' -- 上一sql语句
+Model.lastsql = '' -- 上一sql语句
+Model.orderby = ''
+Model.group = ''
+Model.limit = ''
 
 function Model:__construction( tablename )
 	self:_initialize()
-	if tablenname == nil then 
+	if tablename == nil or tablename == '' then 
 		--TODO表示一个空的model
-	else 
-		self.tablename = tablename
-		self.tablePrefix = C("DB_PREFIX")
-		self.dbName = C('DB_NAME')
-		self.tablename = self.tablePrefix..tablename
+	else
+		self.tablePrefix = C("MYSQL_PREFIX")
+		self.dbName = C('MYSQL_NAME')
+		self.tablename = self.tablePrefix..parseName(tablename)
 	end
 	local config = C('')
+
 	connection(config)
 end
 
@@ -56,9 +57,26 @@ function execute( sql )
 end
 
 function Model:where( options )
-	self.options = options
+	self.option = options
 	return self
 end
+
+function Model:order( orderby )
+	self.orderby = orderby
+	return self
+end
+
+function Model:limit( limit )
+	self.limit = limit
+	return self
+end
+
+function Model:group( group )
+	self.group = group
+	return self
+end
+
+
 
 function Model:fields( fields )
 	self.fields = fields
@@ -67,38 +85,31 @@ end
 
 function Model:find()
 	self.lastsql = "SELECT "
-	if self.fields then
-		self.lastsql = self.lastsql..self.fields
-	else 
-		self.lastsql = self.lastsql..'*'
+	if self.field then
+		self.lastsql = self.lastsql..self.field
 	end 
-	self.lastsql = self.lastsql.." FROM "..THINKF.C('mysql_prefix')..self.tablename
+	self.lastsql = self.lastsql.." FROM "..self.tablename
 	if self.option then
-		self.lastsql = self.lastsql..' WHERE '..self.options
+		self.lastsql = self.lastsql..' WHERE '..parseOptions(self.option)
 	end 
 	self.lastsql = self.lastsql .." LIMIT 0 ,1 "
-
-	local res = execute( self.lastsql )
+	local res = self:query( self.lastsql )
 	self._after_find( res[1] )
-	return res
+	return res[1]
 end
 
 function Model:_after_find( result )
 	-- body
 end
 
-function Model:select(fields)
+function Model:select()
 	self.lastsql = "SELECT "
-	if self.fields then
-		self.lastsql = self.lastsql..self.fields
-	else 
-		self.lastsql = self.lastsql..'*'
-	end 
-	self.lastsql = self.lastsql.." FROM "..THINKF.C('mysql_prefix')..self.tablename
+	self.lastsql = self.lastsql..self.field
+	self.lastsql = self.lastsql.." FROM "..self.tablename
 	if self.option then
-		self.lastsql = self.lastsql..' WHERE '..self.options
+		self.lastsql = self.lastsql..' WHERE '..parseOptions(self.option)
 	end 
-	local res = execute( self.lastsql )
+	local res = self:query( self.lastsql )
 	self:_after_select( res )
 	return res
 end
@@ -113,6 +124,44 @@ end
 
 function Model:getLastSql()
 	return self.lastsql
+end
+
+function bulidsql() 
+	
+end
+
+
+--字符串命名风格转换
+function parseName( tablename ) 
+	local i = 0;
+	local temp = tablename
+	for k,v in string.gmatch(tablename,'%u+') do 
+		if i == 0 then 
+			temp = string.gsub(temp,k,_lowfirst(k))
+		else
+			temp = string.gsub(temp,k,'_'.._lowfirst(k))
+		end 
+		i = i + 1
+	end
+	return temp
+end
+
+function parseOptions( options ) 
+	if type( options ) == 'string' then
+		return options
+	end
+	local where = ''
+	if type( options ) == 'table' then 
+		for k,v in pairs( options ) do 
+			if type(v) == 'table' then 				
+				local option = v[1]
+				local value = v[2]
+				where = where..k..' '..option..' '..value..' AND '
+			end
+		end
+	end
+	where = string.sub(where,0,string.len(where)-4)
+	return where
 end
 
 return Model

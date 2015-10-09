@@ -10,11 +10,11 @@
 
 module('Common.loader',package.seeall);
 
-local r_G = _G;
-local mt = getmetatable(_G);
-if mt then
-    r_G = rawget(mt, "__index");
-end
+-- local r_G = _G;
+-- local mt = getmetatable(_G);
+-- if mt then
+--     r_G = rawget(mt, "__index");
+-- end
 local cache_module = {};
 
 local filehelper = require ("Util.file");
@@ -36,12 +36,10 @@ end
 
 function r_G._load_module(name)
     local loadmodule = _get_cache(name)
-
     if loadmodule == nil or _tableempty( loadmodule ) then 
         loadmodule = require(name)
         _set_cache(name,loadmodule)
     end
-
     return loadmodule
 end
 
@@ -97,6 +95,14 @@ function r_G.Model(mod, path)
     end
     local m = _load_module(modelname)
     return m:new(mod);
+end
+
+function r_G.Behavior( behavior,path )
+    -- if not fexists(behavior) then 
+    --         behavior = 'Common.Behavior.'..behavior..'Behavior'
+    -- end
+    local m = _load_module(behavior)
+    return m:new(behavior);
 end
 
 function service( servicename ,... )

@@ -11,8 +11,8 @@ function DB:getInstance( config )
 		end
 		r_G._dbinstance = {}		
 	end
-	local gid = md5(config)
-	local gdb = _dbinstance.gid
+	local gid = md5(config)	
+	local gdb = _dbinstance[gid]
 	if not gdb or gdb == nil or gdb == '' then 
 		gdb = self:factory( config )
 		_dbinstance[gid] = gdb
@@ -25,7 +25,6 @@ end
 function DB:factory( config )
 	--加载对应数据库驱动
 	local dbtype = string.upper(string.sub(config.DB_TYPE,1,1))..string.lower(string.sub(config.DB_TYPE,2))
-
 	local db = _load_module("ThinkLua.DBDriver."..dbtype..'Driver')
 	return db:new( config )
 end

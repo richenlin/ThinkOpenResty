@@ -47,7 +47,22 @@ end
 
 --模型生成
 function r_G.D(modelname)
-	return Model(modelname)
+	local mid = md5(modelname)
+	if not _modelinstance or _modelinstance == nil then 
+		local r_G = _G;
+		local mt = getmetatable(_G);
+		if mt then
+		    r_G = rawget(mt, "__index");
+		end
+		r_G._modelinstance = {}		
+	end
+	local model = _modelinstance[mid]
+	if not model or model == nil or model == '' then 
+		model = Model(modelname)
+		_modelinstance[mid] = model
+		return model
+	end
+	return model
 end
 
 --配置文件获取
@@ -72,7 +87,22 @@ function r_G.C(name,value)
 		r_G._config = {}
 		_config = name
 	end
-	
+end
 
+--行为扩展
+function r_G.B( name,data )
+	-- if _isEmpty(name) then 
+	-- 	return data 
+	-- end
+	--加载对应Behaiver文件
+	local behavior = Behavior(name)
+	return behavior:run(data)
+end
+
+--行为扩展
+function r_G.tags( name,data )
+	local tagsmap = ngx.ctx[APP_NAME].CONF.TAGS
+	tagsname = tagsmap[name]
+	return B(tagsname,data)
 end
 

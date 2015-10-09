@@ -1,9 +1,8 @@
 module("ThinkLua.DBDriver.MysqlDriver",package.seeall)
 
-local _driver = extend("ThinkLua.DB")
+local _driver = extend("ThinkLua.DBDriver.Driver")
 _driver.config = {}
 _driver.db = ''
-
 local mysql = _load_module("resty.mysql")
 function _driver:__construction(config)
 	self.config = config
@@ -19,18 +18,19 @@ function connect( config )
     db:set_timeout(1000) -- 1 sec
  --    local server = C("")
  	local ok, err, errno, sqlstate = db:connect{
-    	host = "127.0.0.1",
-        port = 3306,
-        database = "test_ticket_activity",
-        user = "root",
-        password = "richenlin",
+    	host = config.MYSQL_HOST,
+        port = config.MYSQL_PORT,
+        database = config.MYSQL_NAME,
+        user = config.MYSQL_USER,
+        password = config.MYSQL_PASSWORD,
         max_packet_size = 1024 * 1024 }
 
     if not ok then
         ngx.say("failed to connect: ", err, ": ", errno, " ", sqlstate)
         return
     end
-   	MysqlDriver.db = db
+    db:query("SET NAMES 'utf8'")
+   	_driver.db = db
 
 end
 
@@ -48,5 +48,4 @@ function _driver:query( query )
     end
     return res
 end
-
-return MysqlDriver
+return _driver

@@ -1,13 +1,7 @@
 module("ThinkLua.Hook",package.seeall)
 
-local _M = {}
+local _M = Class()
 
-function _M:new( ... )
-	local o={}
-    setmetatable(o,self)
-    self.__index=self
-    return o
-end
 
 function _M:listen( tagsname,param )
 	--加载tags配置文件

@@ -43,8 +43,8 @@ end
 
 local function _load_module(name)
     local loadmodule = _get_cache(name)
-    -- ngx.say("loader 46:"..name)
-    -- ngx.say("loader 47:"..type(loadmodule))
+    ngx.say("loader 46:"..name)
+    ngx.say("loader 47:"..type(loadmodule))
     if loadmodule == nil or think_util.empty( loadmodule ) then 
         loadmodule = require(name)
         _set_cache(name,loadmodule)

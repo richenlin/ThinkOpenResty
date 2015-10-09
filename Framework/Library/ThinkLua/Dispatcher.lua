@@ -11,6 +11,7 @@ end
 
 function Dispatcher:dispatch()
 	local path = _Request.path
+	
 	local r_G = _G;
 	local mt = getmetatable(_G);
 	if mt then

@@ -201,38 +201,7 @@ function table_merge( table1,table2 )
     return table1
 end
 
---字符串分隔
-function split(szFullString, szSeparator)
-    local nFindStartIndex = 1
-    local nSplitIndex = 1
-    local nSplitArray = {}
-    while true do
-       local nFindLastIndex = string.find(szFullString, szSeparator, nFindStartIndex)
-       if not nFindLastIndex then
-        nSplitArray[nSplitIndex] = string.sub(szFullString, nFindStartIndex, string.len(szFullString))
-        break
-       end
-       nSplitArray[nSplitIndex] = string.sub(szFullString, nFindStartIndex, nFindLastIndex - 1)
-       nFindStartIndex = nFindLastIndex + string.len(szSeparator)
-       nSplitIndex = nSplitIndex + 1
-    end
-    return nSplitArray
-end
 
---首字母大写
-function ucfirst(string,separator) 
-    if separator then --如果存在分隔符，则将分隔符后的第一个字母大写
-       local splittable = split( string,separator )
-       if not empty( splittable ) then 
-            for k, v in pairs(splittable) do 
-                firstLetteryUpper = string.upper(string.sub( v,1, 2 ))
-                newstring = newstring .. firstLetteryUpper..string.sub(v,2,-1)
-            end
-            return newstring
-       end
-    end
-    return string.upper(string.sub( string,1, 2 ))..string.sub(string,2,-1)
-end
 
 
 

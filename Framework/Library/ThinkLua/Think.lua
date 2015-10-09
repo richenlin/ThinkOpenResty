@@ -21,6 +21,8 @@ function Think:start()
 	
 	_load_module("ThinkLua.Behavior")
 	_load_module("ThinkLua.Hook")
+	-- 加载行为扩展模块
+	ngx.ctx[APP_NAME].CONF.TAGS = require('Common/Conf/tags')
 	local App = require("ThinkLua.App")
 	App:run()
 	

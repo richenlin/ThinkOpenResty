@@ -1,9 +1,9 @@
 --修改为对象风格，否则会出现attempt to yield across C-call boundary的bug
-local r_G = _G;
-local mt = getmetatable(_G);
-if mt then
-    r_G = rawget(mt, "__index");
-end
+-- local r_G = _G;
+-- local mt = getmetatable(_G);
+-- if mt then
+--     r_G = rawget(mt, "__index");
+-- end
 
 r_G.THINK_VERSION = '1.0.0'
 --默认APP_MODE

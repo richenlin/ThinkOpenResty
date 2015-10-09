@@ -19,6 +19,10 @@ end
 SITE_PATH = '/www/web/openresty/ThinkLua/'
 --设置APP_NAME
 APP_NAME = 'ThinkLua'
+--此处设定一个nginx的全局变量
+ngx.ctx[APP_NAME] = ngx.ctx[APP_NAME] or {
+	CONF = {TAGS={}}
+}
 -- 定义框架路径
 THINK_PATH = SITE_PATH .. 'Framework/'
 -- 定义项目路径

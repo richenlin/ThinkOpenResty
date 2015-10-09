@@ -1,13 +1,7 @@
 module("ThinkLua.Behavior",package.seeall)
 
-local _M = {}
+local _M = Class()
 
-function _M:new( ... )
-	local o={}
-    setmetatable(o,self)
-    self.__index=self
-    return o
-end
 
 function _M:run( param )
 	ngx.say('base behavior')
