@@ -10,6 +10,9 @@ function _driver:__construction(config)
 end
 
 function connect( config )
+    --[[
+       mysql数据连接池
+    ]]--
 	local db, err = mysql:new()
 	if not db then
         ngx.say("failed to instantiate mysql: ", err)
@@ -39,11 +42,6 @@ function _driver:query( query )
         self.db:query(query)
     if not res then
         ngx.say("bad result: ", err, ": ", errno, ": ", sqlstate, ".")
-        return
-    end
-    local ok, err = self.db:set_keepalive(10000, 100)
-    if not ok then
-        ngx.say("failed to set keepalive: ", err)
         return
     end
     return res
